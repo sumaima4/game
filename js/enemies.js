@@ -9,6 +9,8 @@ export class Enemy {
   }
 
   update(deltaTime) {
+    this.speedX = -this.game.speed;
+
     this.x += this.speedX;
     this.y += this.speedY;
 

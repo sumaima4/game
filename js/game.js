@@ -61,6 +61,7 @@ window.addEventListener("load", function () {
         this.enemyImage = enemyImage;
         this.gameOver = false;
         this.timer = 0;
+        this.speedIncreaseRate = 0.1;
 
         this.addEnemy();
       }
@@ -69,6 +70,8 @@ window.addEventListener("load", function () {
         if (this.gameOver) return;
 
         this.timer += deltaTime;
+
+        this.speed += this.speedIncreaseRate * (deltaTime / 1000);
         this.background.update();
         this.player.update(this.input.keys);
         // enemy logic
@@ -106,11 +109,7 @@ window.addEventListener("load", function () {
         context.fillStyle = "black";
         context.font = "30px Arial";
         context.textAlign = "left";
-        context.fillText(
-          `Timer: ${(this.timer / 1000).toFixed(1)}s`,
-          20,
-          50
-        );
+        context.fillText(`Timer: ${(this.timer / 1000).toFixed(1)}s`, 20, 50);
 
         if (this.gameOver) {
           context.fillStyle = "rgba(0, 0, 0, 0.5)";
