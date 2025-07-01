@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
       this.player = new Player(this, playerImage);
       this.enemies = [];
       this.enemyTimer = 0;
-      this.enemyInterval = 3000; // Time in milliseconds between hurdles
+      this.enemyInterval = 4000; // Time in milliseconds between hurdles
       this.enemyImage = enemyImage;
       this.gameOver = false;
       this.paused = false;
@@ -172,9 +172,9 @@ window.addEventListener("load", function () {
 
     window.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
-        restartButton();
+        restartButton.click();
       }
-      if (e.code === "Space") {
+      if (event.code === "Space") {
         game.paused = !game.paused;
       }
     });
