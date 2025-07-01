@@ -6,25 +6,6 @@ import { GroundEnemy } from "./enemies.js";
 let game;
 
 window.addEventListener("load", function () {
-  const restartButton = document.createElement("button");
-  restartButton.textContent = "RESTART";
-  restartButton.id = "restartButton";
-  Object.assign(restartButton.style, {
-    position: "absolute",
-    top: "90px",
-    right: "18%",
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "transparent",
-    border: "none",
-    padding: "8px 16px",
-    zIndex: "10",
-    cursor: "pointer",
-    display: "block",
-  });
-  document.body.appendChild(restartButton);
-
   class Game {
     // The constructor initializes the game with a specified width and height.
     constructor(width, height) {
@@ -129,6 +110,25 @@ window.addEventListener("load", function () {
     }
   }
 
+  const restartButton = document.createElement("button");
+  restartButton.textContent = "RESTART";
+  restartButton.id = "restartButton";
+  Object.assign(restartButton.style, {
+    position: "absolute",
+    top: "90px",
+    right: "18%",
+    fontSize: "20px",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "transparent",
+    border: "none",
+    padding: "8px 16px",
+    zIndex: "10",
+    cursor: "pointer",
+    display: "block",
+  });
+  document.body.appendChild(restartButton);
+
   const playerImage = document.getElementById("player");
   const enemyImage = document.getElementById("enemy");
   const layer1Image = document.getElementById("layer1");
@@ -170,7 +170,10 @@ window.addEventListener("load", function () {
       game = new Game(canvas.width, canvas.height);
     });
 
-    window.addEventListener("keydown", (e) => {
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        restartButton();
+      }
       if (e.code === "Space") {
         game.paused = !game.paused;
       }
