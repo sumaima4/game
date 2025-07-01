@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
       this.player = new Player(this, playerImage);
       this.enemies = [];
       this.enemyTimer = 0;
-      this.enemyInterval = 2000; // Time in milliseconds between hurdles
+      this.enemyInterval = 2500; // Time in milliseconds between hurdles
       this.enemyImage = enemyImage;
       this.gameOver = false;
       this.paused = false;
@@ -159,7 +159,7 @@ window.addEventListener("load", function () {
   function startGame() {
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext("2d");
-    canvas.width = 1000;
+    canvas.width = 1100;
     canvas.height = 600;
 
     game = new Game(canvas.width, canvas.height);
