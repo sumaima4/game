@@ -17,7 +17,7 @@ export class Player {
   update(input) {
     // Jumping
     if (input.includes("ArrowUp") && this.onGround()) {
-      this.vy -= 20; // Jump
+      this.vy -= 18;
     }
 
     // Vertical movement
@@ -30,9 +30,15 @@ export class Player {
 
     if (!this.onGround()) {
       this.vy += this.gravity;
+      this.x += 1;
     } else {
       this.vy = 0;
-      this.y = this.game.height - this.height - this.game.groundMargin; // Ensure on the ground
+      this.y = this.game.height - this.height - this.game.groundMargin;
+
+      if (this.x > 0) {
+        this.x -= 1;
+        if (this.x < 0) this.x = 0;
+      }
     }
   }
 

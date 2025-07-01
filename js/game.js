@@ -24,7 +24,7 @@ window.addEventListener("load", function () {
       this.player = new Player(this, playerImage);
       this.enemies = [];
       this.enemyTimer = 0;
-      this.enemyInterval = 4000; // Time in milliseconds between hurdles
+      this.enemyInterval = 3000; // Time in milliseconds between hurdles
       this.enemyImage = enemyImage;
       this.gameOver = false;
       this.paused = false;
@@ -49,8 +49,6 @@ window.addEventListener("load", function () {
       } else {
         this.enemyTimer += deltaTime;
       }
-
-      this.timeToNextEnemy = Math.max(0, this.enemyInterval - this.enemyTimer);
 
       this.enemies.forEach((enemy) => enemy.update(deltaTime));
 
