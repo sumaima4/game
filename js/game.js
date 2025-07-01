@@ -6,28 +6,6 @@ import { GroundEnemy } from "./enemies.js";
 let game;
 
 window.addEventListener("load", function () {
-  class Game {
-    // The constructor initializes the game with a specified width and height.
-    constructor(width, height) {
-      this.width = width;
-      this.height = height;
-      this.groundMargin = 100;
-      this.speed = 3;
-      this.input = new InputHandler();
-      this.background = new Background(this, {
-        layer1Image,
-        layer2Image,
-        layer3Image,
-        layer4Image,
-        layer5Image,
-      });
-      this.player = new Player(this, playerImage);
-      this.enemies = [];
-      this.enemyTimer = 0;
-      this.enemyInterval = 5000; // Time in milliseconds between hurdles
-      this.enemyImage = enemyImage;
-      this.gameOver = false;
-      this.timer = 0;
   const restartButton = document.createElement("button");
   restartButton.textContent = "RESTART";
   restartButton.id = "restartButton";
@@ -47,77 +25,40 @@ window.addEventListener("load", function () {
   });
   document.body.appendChild(restartButton);
 
-  const playerImage = document.getElementById("player");
-  const enemyImage = document.getElementById("enemy");
-  const layer1Image = document.getElementById("layer1");
-  const layer2Image = document.getElementById("layer2");
-  const layer3Image = document.getElementById("layer3");
-  const layer4Image = document.getElementById("layer4");
-  const layer5Image = document.getElementById("layer5");
-
-  const images = [
-    playerImage,
-    enemyImage,
-    layer1Image,
-    layer2Image,
-    layer3Image,
-    layer4Image,
-    layer5Image,
-  ];
-
-  let loaded = 0;
-  images.forEach((img) => {
-    if (img.complete) loaded++;
-    else
-      img.onload = () => {
-        loaded++;
-        if (loaded === images.length) startGame();
-      };
-  });
-  if (loaded === images.length) startGame();
-
-  function startGame() {
-    const canvas = document.getElementById("canvas1");
-    const ctx = canvas.getContext("2d");
-    canvas.width = 1000;
-    canvas.height = 600;
-    class Game {
-      // The constructor initializes the game with a specified width and height.
-      constructor(width, height) {
-        this.width = width;
-        this.height = height;
-        this.groundMargin = 100;
-        this.speed = 3;
-        this.input = new InputHandler();
-        this.background = new Background(this, {
-          layer1Image,
-          layer2Image,
-          layer3Image,
-          layer4Image,
-          layer5Image,
-        });
-        this.player = new Player(this, playerImage);
-        this.enemies = [];
-        this.enemyTimer = 0;
-        this.enemyInterval = 3000; // Time in milliseconds between hurdles
-        this.enemyImage = enemyImage;
-        this.gameOver = false;
-        this.paused = false;
-        this.timer = 0;
-        this.speedIncreaseRate = 0.1;
+  class Game {
+    // The constructor initializes the game with a specified width and height.
+    constructor(width, height) {
+      this.width = width;
+      this.height = height;
+      this.groundMargin = 100;
+      this.speed = 3;
+      this.input = new InputHandler();
+      this.background = new Background(this, {
+        layer1Image,
+        layer2Image,
+        layer3Image,
+        layer4Image,
+        layer5Image,
+      });
+      this.player = new Player(this, playerImage);
+      this.enemies = [];
+      this.enemyTimer = 0;
+      this.enemyInterval = 3000; // Time in milliseconds between hurdles
+      this.enemyImage = enemyImage;
+      this.gameOver = false;
+      this.paused = false;
+      this.timer = 0;
+      this.speedIncreaseRate = 0.1;
 
       this.addEnemy();
     }
     // The update method is intended to handle game logic updates.
     update(deltaTime) {
-      if (this.gameOver) return;
-        this.addEnemy();
-      }
-      // The update method is intended to handle game logic updates.
-      update(deltaTime) {
-        if (this.paused || this.gameOver) return;
+      if (this.paused || this.gameOver) return;
 
       this.timer += deltaTime;
+
+      this.speed += this.speedIncreaseRate * (deltaTime / 1000);
       this.background.update();
       this.player.update(this.input.keys);
       // enemy logic
@@ -127,18 +68,6 @@ window.addEventListener("load", function () {
       } else {
         this.enemyTimer += deltaTime;
       }
-        this.timer += deltaTime;
-
-        this.speed += this.speedIncreaseRate * (deltaTime / 1000);
-        this.background.update();
-        this.player.update(this.input.keys);
-        // enemy logic
-        if (this.enemyTimer > this.enemyInterval) {
-          this.addEnemy();
-          this.enemyTimer = 0;
-        } else {
-          this.enemyTimer += deltaTime;
-        }
 
       this.timeToNextEnemy = Math.max(0, this.enemyInterval - this.enemyTimer);
 
@@ -165,26 +94,22 @@ window.addEventListener("load", function () {
       context.font = "30px Arial";
       context.textAlign = "left";
       context.fillText(`Timer: ${(this.timer / 1000).toFixed(1)}s`, 20, 50);
-        context.fillStyle = "black";
-        context.font = "30px Arial";
-        context.textAlign = "left";
-        context.fillText(`Timer: ${(this.timer / 1000).toFixed(1)}s`, 20, 50);
 
-        if (this.paused) {
-          context.fillStyle = "rgba(0, 0, 0, 0.5)";
-          context.fillRect(0, 0, this.width, this.height);
-          context.fillStyle = "white";
-          context.font = "bold 50px Arial";
-          context.textAlign = "center";
-          context.fillText("PAUSED", this.width / 2, this.height / 2);
-          return;
-        }
+      if (this.paused) {
+        context.fillStyle = "rgba(0, 0, 0, 0.5)";
+        context.fillRect(0, 0, this.width, this.height);
+        context.fillStyle = "white";
+        context.font = "bold 50px Arial";
+        context.textAlign = "center";
+        context.fillText("PAUSED", this.width / 2, this.height / 2);
+        return;
+      }
 
       if (this.gameOver) {
         context.fillStyle = "rgba(0, 0, 0, 0.5)";
         context.fillRect(0, 0, this.width, this.height);
         context.fillStyle = "white";
-        context.font = "bold 60px Arial";
+        context.font = "bold 50px Arial";
         context.textAlign = "center";
         context.fillText("GAME OVER!", this.width / 2, this.height / 2);
       }
@@ -193,19 +118,6 @@ window.addEventListener("load", function () {
       this.enemies.push(new GroundEnemy(this, this.enemyImage));
       console.log(this.enemyImage);
     }
-        if (this.gameOver) {
-          context.fillStyle = "rgba(0, 0, 0, 0.5)";
-          context.fillRect(0, 0, this.width, this.height);
-          context.fillStyle = "white";
-          context.font = "bold 50px Arial";
-          context.textAlign = "center";
-          context.fillText("GAME OVER!", this.width / 2, this.height / 2);
-        }
-      }
-      addEnemy() {
-        this.enemies.push(new GroundEnemy(this, this.enemyImage));
-        console.log(this.enemyImage);
-      }
 
     checkCollision(player, enemy) {
       return (
@@ -216,6 +128,7 @@ window.addEventListener("load", function () {
       );
     }
   }
+
   const playerImage = document.getElementById("player");
   const enemyImage = document.getElementById("enemy");
   const layer1Image = document.getElementById("layer1");
