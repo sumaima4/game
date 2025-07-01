@@ -3,7 +3,28 @@ import { InputHandler } from "./handler.js";
 import { Background } from "./background.js";
 import { GroundEnemy } from "./enemies.js";
 
+let game;
+
 window.addEventListener("load", function () {
+  const restartButton = document.createElement("button");
+  restartButton.textContent = "RESTART";
+  restartButton.id = "restartButton";
+  Object.assign(restartButton.style, {
+    position: "absolute",
+    top: "90px",
+    right: "18%",
+    fontSize: "20px",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "transparent",
+    border: "none",
+    padding: "8px 16px",
+    zIndex: "10",
+    cursor: "pointer",
+    display: "block",
+  });
+  document.body.appendChild(restartButton);
+
   const playerImage = document.getElementById("player");
   const enemyImage = document.getElementById("enemy");
   const layer1Image = document.getElementById("layer1");
@@ -38,7 +59,6 @@ window.addEventListener("load", function () {
     const ctx = canvas.getContext("2d");
     canvas.width = 1000;
     canvas.height = 600;
-
     class Game {
       // The constructor initializes the game with a specified width and height.
       constructor(width, height) {
@@ -57,9 +77,10 @@ window.addEventListener("load", function () {
         this.player = new Player(this, playerImage);
         this.enemies = [];
         this.enemyTimer = 0;
-        this.enemyInterval = 5000; // Time in milliseconds between hurdles
+        this.enemyInterval = 3000; // Time in milliseconds between hurdles
         this.enemyImage = enemyImage;
         this.gameOver = false;
+        this.paused = false;
         this.timer = 0;
         this.speedIncreaseRate = 0.1;
 
@@ -67,7 +88,7 @@ window.addEventListener("load", function () {
       }
       // The update method is intended to handle game logic updates.
       update(deltaTime) {
-        if (this.gameOver) return;
+        if (this.paused || this.gameOver) return;
 
         this.timer += deltaTime;
 
@@ -111,11 +132,21 @@ window.addEventListener("load", function () {
         context.textAlign = "left";
         context.fillText(`Timer: ${(this.timer / 1000).toFixed(1)}s`, 20, 50);
 
+        if (this.paused) {
+          context.fillStyle = "rgba(0, 0, 0, 0.5)";
+          context.fillRect(0, 0, this.width, this.height);
+          context.fillStyle = "white";
+          context.font = "bold 50px Arial";
+          context.textAlign = "center";
+          context.fillText("PAUSED", this.width / 2, this.height / 2);
+          return;
+        }
+
         if (this.gameOver) {
           context.fillStyle = "rgba(0, 0, 0, 0.5)";
           context.fillRect(0, 0, this.width, this.height);
           context.fillStyle = "white";
-          context.font = "bold 60px Arial";
+          context.font = "bold 50px Arial";
           context.textAlign = "center";
           context.fillText("GAME OVER!", this.width / 2, this.height / 2);
         }
@@ -135,7 +166,17 @@ window.addEventListener("load", function () {
       }
     }
 
-    const game = new Game(canvas.width, canvas.height);
+    game = new Game(canvas.width, canvas.height);
+
+    restartButton.addEventListener("click", () => {
+      game = new Game(canvas.width, canvas.height);
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        game.paused = !game.paused;
+      }
+    });
 
     let lastTime = 0;
     function animate(timeStamp) {

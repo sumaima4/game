@@ -10,6 +10,8 @@ export class Player {
     this.image = image;
     this.speed = 0;
     this.maxSpeed = 10; // Maximum horizontal speed
+    this.maxJumpHeight = 330;
+    this.minY = this.y - this.maxJumpHeight;
   }
 
   update(input) {
@@ -20,6 +22,12 @@ export class Player {
 
     // Vertical movement
     this.y += this.vy;
+
+    if (this.y < this.minY) {
+      this.y = this.minY;
+      this.vy = 0;
+    }
+
     if (!this.onGround()) {
       this.vy += this.gravity;
     } else {
