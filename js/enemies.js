@@ -2,7 +2,7 @@ export class Enemy {
   constructor() {
     this.frameX = 0;
     this.frameY = 0;
-    this.fps = 10;
+    this.fps = 5;
     this.frameTimer = 0;
     this.frameInterval = 1000 / this.fps;
     this.markedForDeletion = false;

@@ -36,7 +36,7 @@ export class Player {
       this.y = this.game.height - this.height - this.game.groundMargin;
 
       if (this.x > 0) {
-        this.x -= 1;
+        this.x -= 1.5;
         if (this.x < 0) this.x = 0;
       }
     }

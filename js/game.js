@@ -7,7 +7,6 @@ let game;
 
 window.addEventListener("load", function () {
   class Game {
-    // The constructor initializes the game with a specified width and height.
     constructor(width, height) {
       this.width = width;
       this.height = height;
@@ -24,7 +23,7 @@ window.addEventListener("load", function () {
       this.player = new Player(this, playerImage);
       this.enemies = [];
       this.enemyTimer = 0;
-      this.enemyInterval = 2500; // Time in milliseconds between hurdles
+      this.enemyInterval = 2000;
       this.enemyImage = enemyImage;
       this.gameOver = false;
       this.paused = false;
@@ -33,7 +32,7 @@ window.addEventListener("load", function () {
 
       this.addEnemy();
     }
-    // The update method is intended to handle game logic updates.
+
     update(deltaTime) {
       if (this.paused || this.gameOver) return;
 
@@ -58,10 +57,10 @@ window.addEventListener("load", function () {
           break;
         }
       }
-      // enemy deletion outside loop
+
       this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
     }
-    // The draw method is intended to handle rendering the game state to the canvas.
+
     draw(context) {
       this.background.draw(context);
       this.player.draw(context);
@@ -95,7 +94,6 @@ window.addEventListener("load", function () {
     }
     addEnemy() {
       this.enemies.push(new GroundEnemy(this, this.enemyImage));
-      console.log(this.enemyImage);
     }
 
     checkCollision(player, enemy) {
