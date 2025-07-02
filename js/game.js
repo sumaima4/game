@@ -117,7 +117,7 @@ window.addEventListener("load", function () {
   Object.assign(restartButton.style, {
     position: "absolute",
     top: "90px",
-    right: "25%",
+    right: "15%",
     fontSize: "20px",
     fontWeight: "bold",
     color: "#fff",
