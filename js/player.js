@@ -30,13 +30,13 @@ export class Player {
 
     if (!this.onGround()) {
       this.vy += this.gravity;
-      this.x += 1;
+      this.x += 0.5;
     } else {
       this.vy = 0;
       this.y = this.game.height - this.height - this.game.groundMargin;
 
       if (this.x > 0) {
-        this.x -= 1.5;
+        this.x -= 2;
         if (this.x < 0) this.x = 0;
       }
     }

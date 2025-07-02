@@ -40,7 +40,7 @@ window.addEventListener("load", function () {
 
       this.speed += this.speedIncreaseRate * (deltaTime / 1000);
 
-      this.enemyInterval = Math.max(1000, 5000 - this.speed * 500);
+      this.enemyInterval = Math.max(1000, 5000 - this.speed * 300);
       this.background.update();
       this.player.update(this.input.keys);
       // enemy logic
@@ -117,7 +117,7 @@ window.addEventListener("load", function () {
   Object.assign(restartButton.style, {
     position: "absolute",
     top: "90px",
-    right: "15%",
+    right: "12%",
     fontSize: "20px",
     fontWeight: "bold",
     color: "#fff",
@@ -162,7 +162,7 @@ window.addEventListener("load", function () {
   function startGame() {
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext("2d");
-    canvas.width = 1100
+    canvas.width = 1200
     canvas.height = 600;
 
     game = new Game(canvas.width, canvas.height);
