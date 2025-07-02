@@ -23,12 +23,12 @@ window.addEventListener("load", function () {
       this.player = new Player(this, playerImage);
       this.enemies = [];
       this.enemyTimer = 0;
-      this.enemyInterval = 2000;
+      this.enemyInterval = 5000;
       this.enemyImage = enemyImage;
       this.gameOver = false;
       this.paused = false;
       this.timer = 0;
-      this.speedIncreaseRate = 0.1;
+      this.speedIncreaseRate = 0.2;
 
       this.addEnemy();
     }
@@ -39,6 +39,8 @@ window.addEventListener("load", function () {
       this.timer += deltaTime;
 
       this.speed += this.speedIncreaseRate * (deltaTime / 1000);
+
+      this.enemyInterval = Math.max(1000, 5000 - this.speed * 500);
       this.background.update();
       this.player.update(this.input.keys);
       // enemy logic
@@ -93,7 +95,10 @@ window.addEventListener("load", function () {
       }
     }
     addEnemy() {
-      this.enemies.push(new GroundEnemy(this, this.enemyImage));
+      const numberOfEnemies = Math.floor(this.speed);
+      for (let i = 0; i < numberOfEnemies; i++) {
+        this.enemies.push(new GroundEnemy(this, this.enemyImage));
+      }
     }
 
     checkCollision(player, enemy) {
@@ -112,7 +117,7 @@ window.addEventListener("load", function () {
   Object.assign(restartButton.style, {
     position: "absolute",
     top: "90px",
-    right: "18%",
+    right: "25%",
     fontSize: "20px",
     fontWeight: "bold",
     color: "#fff",
@@ -157,7 +162,7 @@ window.addEventListener("load", function () {
   function startGame() {
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext("2d");
-    canvas.width = 1100;
+    canvas.width = 800;
     canvas.height = 600;
 
     game = new Game(canvas.width, canvas.height);
